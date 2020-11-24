@@ -1,64 +1,55 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, Text} from 'react-native';
-import Constants from '../Models/Constants';
-import {CameraItem} from './CameraItem';
+import React from 'react';
+import {ActivityIndicator, ScrollView, Text} from 'react-native';
+import {CameraVideo} from './CameraItem';
+import CameraService from '../Services/CameraService';
+import {Card} from 'react-native-elements';
 
-interface Props {}
-
-export interface Camera {
-  name: string;
-  time: string;
-  url: string;
+interface Props {
+  refresh: boolean;
 }
 
-interface CamerasState {
-  Cameras: Camera[];
-  IsLoading: boolean;
-}
+export const CameraList: React.FunctionComponent<Props> = (props: Props) => {
+  const cameraService = CameraService({refresh: props.refresh});
 
-export const CameraList: React.FunctionComponent<Props> = () => {
-  const [camerasState, setCamerasState] = useState<CamerasState>({
-    Cameras: [],
-    IsLoading: true,
-  });
-
-  useEffect(() => {
-    //setCamerasState({...camerasState, IsLoading: true});
-
-    fetch(Constants.API)
-      .then((response) => {
-        console.log(response.text);
-        return response.json();
-      })
-      .then((json) => setCamerasState({...camerasState, Cameras: json}))
-      .catch((error) => console.error(error))
-      .finally(() => setCamerasState({...camerasState, IsLoading: false}));
-  });
-
-  function IsLoadingTemplate(): JSX.Element {
-    return <Text>Loading...</Text>;
+  function getFormattedTitle(title: string) {
+    return title.toUpperCase();
   }
 
-  function DisplayCameras(cameras: Camera[]): JSX.Element {
-    if (cameras === null) {
-      return <Text>error</Text>;
+  function getFormattedDatetime(time: string): string {
+    var date = new Date(Number.parseInt(time, 10) * 1000);
+    var formattedDate = date.toUTCString();
+
+    return formattedDate;
+  }
+
+  if (cameraService.status === 'init') {
+    return <Text>Init...</Text>;
+  }
+
+  if (cameraService.status === 'loading') {
+    return <ActivityIndicator size="large" color="#009688" />;
+  }
+
+  if (cameraService.status === 'loaded') {
+    if (cameraService.payload === null) {
+      return <Text>No Cameras</Text>;
     }
 
-    const cameraItems = cameras.map((camera) => (
-      <CameraItem Camera={camera} key={camera.name} />
+    const cameraItems = cameraService.payload.map((camera, i) => (
+      <Card key={i}>
+        <Card.Title>{getFormattedTitle(camera.name)}</Card.Title>
+        <Text>{getFormattedDatetime(camera.time)}</Text>
+        <Card.Divider />
+        <CameraVideo url={camera.url} key={i} />
+      </Card>
     ));
 
-    return (
-      <ScrollView>
-        <Text>Hello from scroll viewer !</Text>
-        {cameraItems}
-      </ScrollView>
-    );
+    return <ScrollView>{cameraItems}</ScrollView>;
   }
 
-  if (camerasState.IsLoading) {
-    return IsLoadingTemplate();
+  if (cameraService.status === 'error') {
+    return <Text>Error...</Text>;
   }
 
-  return DisplayCameras(camerasState.Cameras);
+  return <></>;
 };

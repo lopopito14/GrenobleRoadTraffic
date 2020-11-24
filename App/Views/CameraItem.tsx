@@ -1,45 +1,26 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Video from 'react-native-video';
 import Constants from '../Models/Constants';
-import {Camera} from './CamerasList';
 
 interface Props {
-  Camera: Camera;
-  key: string;
+  url: string;
+  key: number;
 }
 
-export class CameraItem extends React.Component<Props> {
-  onBuffer() {
-    console.log('onbuffer error');
-  }
-
-  videoError() {
-    console.log('videoError');
-  }
-
-  getFormattedDatetime(): string {
-    var date = new Date(Number.parseInt(this.props.Camera.time, 10) * 1000);
-    var formattedDate = date.toUTCString();
-
-    return formattedDate;
-  }
-
+export class CameraVideo extends React.Component<Props> {
   render() {
     return (
       <>
         <View>
-          <Text>{this.props.Camera.name}</Text>
-          <Text>{this.getFormattedDatetime()}</Text>
           <Video
             source={{
-              uri: Constants.URL + this.props.Camera.url,
+              uri: Constants.URL + this.props.url,
             }}
-            onBuffer={this.onBuffer}
-            onError={this.videoError}
-            style={styles.backgroundVideo}
+            style={styles.videoStyle}
             playInBackground={true}
             resizeMode="cover"
+            repeat={true}
           />
         </View>
       </>
@@ -49,10 +30,11 @@ export class CameraItem extends React.Component<Props> {
 
 // Later on in your styles..
 var styles = StyleSheet.create({
-  backgroundVideo: {
+  videoStyle: {
     backgroundColor: 'black',
     position: 'relative',
-    height: 200,
-    width: 300,
+    height: 255,
+    width: 340,
+    alignSelf: 'center',
   },
 });
