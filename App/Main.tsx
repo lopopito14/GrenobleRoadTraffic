@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
   },
   safeAreaStyle: {
     alignItems: 'stretch',
+    marginBottom: 100,
   },
   buttonRefreshStyle: {
     elevation: 8,

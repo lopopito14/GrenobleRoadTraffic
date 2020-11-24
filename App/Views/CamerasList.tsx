@@ -15,10 +15,6 @@ export const CameraList: React.FunctionComponent<Props> = () => {
     setTimeout(() => setRefreshing(false), 2000);
   }, []);
 
-  function getFormattedTitle(title: string): string {
-    return title.toUpperCase();
-  }
-
   function getFormattedDatetime(time: string): string {
     var date = new Date(Number.parseInt(time, 10) * 1000);
     var formattedDate = date.toLocaleString('fr-FR');
@@ -36,7 +32,7 @@ export const CameraList: React.FunctionComponent<Props> = () => {
     if (cameraService.status === 'loaded') {
       return cameraService.payload.map((camera, i) => (
         <Card key={i}>
-          <Card.Title>{getFormattedTitle(camera.name)}</Card.Title>
+          <Card.Title style={styles.titleStyle}>{camera.name}</Card.Title>
           <Text>{getFormattedDatetime(camera.time)}</Text>
           <Card.Divider />
           <CameraVideo url={camera.url} key={i} />
@@ -75,5 +71,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  titleStyle: {
+    textTransform: 'uppercase',
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#009688',
   },
 });
