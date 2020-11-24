@@ -1,55 +1,79 @@
 import React from 'react';
-import {ActivityIndicator, ScrollView, Text} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, Text} from 'react-native';
 import {CameraVideo} from './CameraItem';
 import CameraService from '../Services/CameraService';
 import {Card} from 'react-native-elements';
 
-interface Props {
-  refresh: boolean;
-}
+interface Props {}
 
-export const CameraList: React.FunctionComponent<Props> = (props: Props) => {
-  const cameraService = CameraService({refresh: props.refresh});
+export const CameraList: React.FunctionComponent<Props> = () => {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const cameraService = CameraService({refresh: refreshing});
 
-  function getFormattedTitle(title: string) {
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 2000);
+  }, []);
+
+  function getFormattedTitle(title: string): string {
     return title.toUpperCase();
   }
 
   function getFormattedDatetime(time: string): string {
     var date = new Date(Number.parseInt(time, 10) * 1000);
-    var formattedDate = date.toUTCString();
+    var formattedDate = date.toLocaleString('fr-FR');
 
     return formattedDate;
   }
 
-  if (cameraService.status === 'init') {
-    return <Text>Init...</Text>;
-  }
-
-  if (cameraService.status === 'loading') {
-    return <ActivityIndicator size="large" color="#009688" />;
-  }
-
-  if (cameraService.status === 'loaded') {
-    if (cameraService.payload === null) {
-      return <Text>No Cameras</Text>;
+  function getInitTemplate() {
+    if (cameraService.status === 'init') {
+      return <Text>Init...</Text>;
     }
-
-    const cameraItems = cameraService.payload.map((camera, i) => (
-      <Card key={i}>
-        <Card.Title>{getFormattedTitle(camera.name)}</Card.Title>
-        <Text>{getFormattedDatetime(camera.time)}</Text>
-        <Card.Divider />
-        <CameraVideo url={camera.url} key={i} />
-      </Card>
-    ));
-
-    return <ScrollView>{cameraItems}</ScrollView>;
   }
 
-  if (cameraService.status === 'error') {
-    return <Text>Error...</Text>;
+  function getLoadedTemplate() {
+    if (cameraService.status === 'loaded') {
+      return cameraService.payload.map((camera, i) => (
+        <Card key={i}>
+          <Card.Title>{getFormattedTitle(camera.name)}</Card.Title>
+          <Text>{getFormattedDatetime(camera.time)}</Text>
+          <Card.Divider />
+          <CameraVideo url={camera.url} key={i} />
+        </Card>
+      ));
+    }
   }
 
-  return <></>;
+  function getErrorTemplate() {
+    if (cameraService.status === 'error') {
+      return <Text>Error...</Text>;
+    }
+  }
+
+  return (
+    <ScrollView
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={['#009688']}
+          progressBackgroundColor="#ffffff"
+          progressViewOffset={-50}
+        />
+      }>
+      {getInitTemplate()}
+      {getLoadedTemplate()}
+      {getErrorTemplate()}
+    </ScrollView>
+  );
 };
+
+const styles = StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

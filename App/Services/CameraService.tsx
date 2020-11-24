@@ -14,21 +14,29 @@ const CameraService = (props: Props) => {
     status: 'init',
   });
 
+  function loadDatas() {
+    setCameraServiceState({status: 'loading'});
+    fetch(Constants.API)
+      .then((response) => response.json())
+      .then((response) => {
+        const cameras = response
+          .map((r: Camera) => r)
+          .sort((c1: Camera, c2: Camera) => c1.name > c2.name);
+
+        setCameraServiceState({status: 'loaded', payload: cameras});
+      })
+      .catch((error) => setCameraServiceState({status: 'error', error}));
+  }
+
   useEffect(() => {
     if (props.refresh) {
-      setCameraServiceState({status: 'loading'});
-      fetch(Constants.API)
-        .then((response) => response.json())
-        .then((response) => {
-          const cameras = response
-            .map((r: Camera) => r)
-            .sort((c1: Camera, c2: Camera) => c1.name > c2.name);
-
-          setCameraServiceState({status: 'loaded', payload: cameras});
-        })
-        .catch((error) => setCameraServiceState({status: 'error', error}));
+      loadDatas();
     }
   }, [props.refresh]);
+
+  useEffect(() => {
+    loadDatas();
+  }, []);
 
   return cameraServiceState;
 };
