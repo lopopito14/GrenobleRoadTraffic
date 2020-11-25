@@ -37,7 +37,7 @@ export const apiError = (payload: string): IApiError => ({
 
 export const updateShowStatus = (
   key: string,
-  value: string,
+  value: boolean,
 ): IUpdateShowStatus => ({
   type: types.UPDATE_SHOW_STATUS,
   key: key,
