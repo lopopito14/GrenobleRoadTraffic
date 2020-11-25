@@ -1,9 +1,9 @@
 import React, {useReducer} from 'react';
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {CameraList} from './Views/content/camerasList';
-import Context from './store/context';
-import reducer from './store/reducer';
-import {InitialState} from './store/initialState';
+import Context from './Store/context';
+import reducer from './Store/reducer';
+import {InitialState} from './Store/initialState';
 import Navigation from './Views/menu/navigation';
 
 interface Props {}

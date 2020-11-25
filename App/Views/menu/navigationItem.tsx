@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {StyleSheet, Switch, Text, View} from 'react-native';
-import {ICamera} from '../../store/initialState';
-import Context from '../../store/context';
+import {ICamera} from '../../Store/initialState';
+import Context from '../../Store/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {

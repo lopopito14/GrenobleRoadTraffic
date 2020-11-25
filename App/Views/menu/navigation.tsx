@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ICamera} from '../../store/initialState';
-import Context from '../../store/context';
+import {ICamera} from '../../Store/initialState';
+import Context from '../../Store/context';
 import NavigationItem from './navigationItem';
 
 interface Props {}
@@ -25,7 +25,7 @@ export const Navigation: React.FunctionComponent<Props> = () => {
     return (
       <TouchableOpacity onPress={() => onShowModalButtonPressed()}>
         <Image
-          source={require('../../images/burger.png')}
+          source={require('../../Images/burger.png')}
           style={styles.burgerImage}
         />
       </TouchableOpacity>

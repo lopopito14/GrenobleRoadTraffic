@@ -1,11 +1,11 @@
 import React, {useEffect, useContext} from 'react';
 import {RefreshControl, ScrollView, StyleSheet, Text} from 'react-native';
 import {CameraVideo} from './cameraItem';
-import {ICamera} from '../../store/initialState';
-import * as types from '../../store/types';
+import {ICamera} from '../../Store/initialState';
+import * as types from '../../Store/types';
 import {Card} from 'react-native-elements';
 import Constants from '../../constants';
-import Context from '../../store/context';
+import Context from '../../Store/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {}
