@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Video from 'react-native-video';
-import Constants from '../Models/Constants';
+import Constants from '../../constants';
 
 interface Props {
   url: string;
