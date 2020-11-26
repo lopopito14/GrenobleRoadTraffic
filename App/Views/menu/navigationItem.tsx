@@ -15,15 +15,6 @@ export const NavigationItem: React.FunctionComponent<Props> = (
   const {dispatch} = useContext(Context);
 
   function onSwitchValueChanged(value: boolean) {
-    // AsyncStorage.setItem(props.camera.name, value ? 'true' : 'false').then(
-    //   () => {
-    //     dispatch({
-    //       type: 'UPDATE_SHOW_STATUS',
-    //       key: props.camera.name,
-    //       value: value,
-    //     });
-    //   },
-    // );
     dispatch({
       type: 'UPDATE_SHOW_STATUS',
       key: props.camera.name,
@@ -40,8 +31,8 @@ export const NavigationItem: React.FunctionComponent<Props> = (
       <Text style={styles.cameraItemViewText}>{props.camera.name}</Text>
       <Switch
         style={styles.cameraItemViewSwitch}
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        thumbColor={props.camera.show ? '#009688' : '#f4f3f4'}
+        trackColor={{false: '#767577', true: '#009688'}}
+        thumbColor={props.camera.show ? '#f4f3f4' : '#f4f3f4'}
         value={props.camera.show}
         key={props.camera.name}
         onValueChange={(value) => onSwitchValueChanged(value)}
@@ -58,18 +49,17 @@ const styles = StyleSheet.create({
     direction: 'ltr',
     display: 'flex',
     flexDirection: 'row',
+    marginLeft: 20,
+    marginRight: 20,
   },
   cameraItemViewText: {
     fontSize: 18,
-    color: '#000',
+    color: '#767577',
     fontWeight: 'bold',
     alignSelf: 'center',
     padding: 10,
   },
   cameraItemViewSwitch: {
-    fontSize: 18,
-    color: '#000',
-    fontWeight: 'bold',
     alignSelf: 'center',
   },
 });

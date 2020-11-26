@@ -1,9 +1,3 @@
-export interface IState {
-  error: string;
-  loading: boolean;
-  data: ICamera[];
-}
-
 export type TState = {
   error: string;
   loading: boolean;

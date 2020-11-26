@@ -1,15 +1,9 @@
 import React, {useContext, useState} from 'react';
-import {
-  Image,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Modal, Text, View} from 'react-native';
 import {ICamera} from '../../Store/initialState';
 import Context from '../../Store/context';
 import NavigationItem from './navigationItem';
+import NavigationIcon from './navigationIcon';
 
 interface Props {}
 
@@ -19,17 +13,6 @@ export const Navigation: React.FunctionComponent<Props> = () => {
 
   function onShowModalButtonPressed() {
     setShowModal(!showModal);
-  }
-
-  function getBurgerIcon() {
-    return (
-      <TouchableOpacity onPress={() => onShowModalButtonPressed()}>
-        <Image
-          source={require('../../Images/burger.png')}
-          style={styles.burgerImage}
-        />
-      </TouchableOpacity>
-    );
   }
 
   function getNavigationContainer() {
@@ -43,9 +26,15 @@ export const Navigation: React.FunctionComponent<Props> = () => {
 
     return (
       <View>
-        {getBurgerIcon()}
-        <Modal animationType="slide" transparent={false} visible={showModal}>
-          {getBurgerIcon()}
+        <NavigationIcon
+          iconPressedHandler={() => onShowModalButtonPressed()}
+          isPressed={showModal}
+        />
+        <Modal animationType="fade" transparent={false} visible={showModal}>
+          <NavigationIcon
+            iconPressedHandler={() => onShowModalButtonPressed()}
+            isPressed={showModal}
+          />
           {cameraSpots}
         </Modal>
       </View>
@@ -56,10 +45,3 @@ export const Navigation: React.FunctionComponent<Props> = () => {
 };
 
 export default Navigation;
-
-const styles = StyleSheet.create({
-  burgerImage: {
-    height: 80,
-    width: 80,
-  },
-});
