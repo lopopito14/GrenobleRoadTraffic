@@ -1,30 +1,26 @@
-import React, {useReducer} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
-import {CameraList} from './Views/content/camerasList';
-import Context from './Store/context';
-import reducer from './Store/reducer';
-import {InitialState} from './Store/initialState';
-import Navigation from './Views/menu/navigation';
+import React, { useReducer } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
+import CamerasList from './views/content/camerasList';
+import Context from './store/context';
+import reducer from './store/reducer';
+import { InitialState } from './store/initialState';
+import Navigation from './views/menu/navigation';
 
-interface Props {}
-
-export const Main: React.FunctionComponent<Props> = () => {
+const Main = () => {
   const [state, dispatch] = useReducer(reducer, InitialState);
 
   return (
-    <Context.Provider value={{state, dispatch}}>
+    <Context.Provider value={{ state, dispatch }}>
       <View style={styles.fullViewStyle}>
         <StatusBar barStyle="light-content" />
         <Navigation />
         <SafeAreaView style={styles.safeAreaStyle}>
-          <CameraList />
+          <CamerasList />
         </SafeAreaView>
       </View>
     </Context.Provider>
   );
 };
-
-export default Main;
 
 const styles = StyleSheet.create({
   fullViewStyle: {
@@ -35,3 +31,5 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
 });
+
+export default Main;

@@ -1,13 +1,13 @@
 export type TState = {
-  error: string;
+  error?: string;
   loading: boolean;
-  data: ICamera[];
+  data?: ICamera[];
 };
 
 export const InitialState: TState = {
-  error: '',
+  error: undefined,
   loading: false,
-  data: [],
+  data: undefined,
 };
 
 export interface ICamera {

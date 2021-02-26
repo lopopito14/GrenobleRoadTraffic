@@ -15,7 +15,7 @@ function reducer(state: TState, action: TAction): TState {
           let newCameras: ICamera[] = [];
 
           apiCameras.forEach((apiCamera: ICamera) => {
-            const existingCamera = state.data.find(
+            const existingCamera = state.data?.find(
               (camera: ICamera) => camera.name === apiCamera.name,
             );
 
@@ -37,7 +37,7 @@ function reducer(state: TState, action: TAction): TState {
     case types.UPDATE_SHOW_STATUS:
       return {
         ...state,
-        data: state.data.map((camera: ICamera) => {
+        data: state.data?.map((camera: ICamera) => {
           return camera.name === action.key
             ? {...camera, show: action.value}
             : camera;

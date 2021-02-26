@@ -1,14 +1,22 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import Constants from '../../constants';
 
-interface Props {
+interface IProps {
   iconPressedHandler(): void;
   isPressed: boolean;
 }
 
-export const NavigationIcon: React.FunctionComponent<Props> = (
-  props: Props,
-) => {
+const NavigationIcon = (props: IProps) => {
+
+  const rectangleTransforms: any = (up: boolean) => {
+    return [
+      { rotate: props.isPressed ? (up ? '45deg' : '-45deg') : '0deg' },
+      { translateX: props.isPressed ? 10 : 0 },
+      { translateY: props.isPressed ? (up ? 10 : -10) : 0 },
+    ]
+  };
+
   return (
     <View style={styles.containerStytle}>
       <TouchableOpacity onPress={() => props.iconPressedHandler()}>
@@ -16,30 +24,21 @@ export const NavigationIcon: React.FunctionComponent<Props> = (
           style={[
             styles.rectangle,
             {
-              transform: [
-                {rotate: props.isPressed ? '45deg' : '0deg'},
-                {translateX: props.isPressed ? 10 : 0},
-                {translateY: props.isPressed ? 10 : 0},
-              ],
+              transform: rectangleTransforms(true)
             },
           ]}
         />
         <View
           style={[
             styles.rectangle,
-            // eslint-disable-next-line react-native/no-inline-styles
-            {backgroundColor: props.isPressed ? 'transparent' : '#767577'},
+            { backgroundColor: props.isPressed ? 'transparent' : Constants.GRAY },
           ]}
         />
         <View
           style={[
             styles.rectangle,
             {
-              transform: [
-                {rotate: props.isPressed ? '-45deg' : '0deg'},
-                {translateX: props.isPressed ? 10 : 0},
-                {translateY: props.isPressed ? -10 : 0},
-              ],
+              transform: rectangleTransforms(false)
             },
           ]}
         />
@@ -47,8 +46,6 @@ export const NavigationIcon: React.FunctionComponent<Props> = (
     </View>
   );
 };
-
-export default NavigationIcon;
 
 const styles = StyleSheet.create({
   containerStytle: {
@@ -60,6 +57,8 @@ const styles = StyleSheet.create({
     width: 50,
     marginTop: 5,
     marginBottom: 5,
-    backgroundColor: '#767577',
+    backgroundColor: Constants.GRAY,
   },
 });
+
+export default NavigationIcon;
