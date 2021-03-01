@@ -1,10 +1,6 @@
 # Grenoble Road Traffic
 
-<p align="center">
-<img src="https://img.shields.io/badge/build status-ok-success" alt="Build status" />
-</p>
-
----
+## [![Build status](https://build.appcenter.ms/v0.1/apps/4e5d67c3-2934-4fd1-92db-b8f05e3f5a85/branches/master/badge)](https://appcenter.ms)
 
 ### &#9989; About the application
 
